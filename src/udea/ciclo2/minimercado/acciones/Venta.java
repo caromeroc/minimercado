@@ -11,7 +11,7 @@ public class Venta {
 
     public void venta() {
 
-        Cliente miCliente = new Cliente("Carlos", "Romero", 33);
+        Cliente miCliente = new Cliente("Carlos", "Romero", 63);
 
         Articulo miArticulo1 = new Articulo("Arroz", 1000);
         Articulo miArticulo2 = new Articulo("Pasta", 2500);
@@ -30,7 +30,7 @@ public class Venta {
 
         Date fecha = new Date();
 
-        Factura miFactura = new Factura(fecha, 000001, totalFactura(arrPedido), miCliente, arrPedido);
+        Factura miFactura = new Factura(fecha, 000001, totalFactura(arrPedido, miCliente), miCliente, arrPedido);
         
         System.out.println("La fecha de esta factura es :: " + miFactura.fecha);
         System.out.println("El toal del pedido es :: " + miFactura.totalFactura);
@@ -41,7 +41,7 @@ public class Venta {
      los articulos dentro del pedido.    
     */
     
-    public double totalFactura(ArrayList<Pedido> arrayPedido) {
+    public double totalFactura(ArrayList<Pedido> arrayPedido, Cliente cliente) {
 
         double totalPagar = 0;
 
@@ -52,9 +52,26 @@ public class Venta {
             }
 
         }
+        
+        totalPagar = totalConDescuento(totalPagar, cliente ,  arrayPedido.size());
+                
         //System.out.println("El Total de la factura es :: " + totalPagar);
         return totalPagar;
 
+    }
+    
+    public double totalConDescuento(Double totalPagar, Cliente cliente, int totalArticulos ){
+    
+        double totalConDescuento = 0 ;
+        
+        if (cliente.edad > 60){
+            totalConDescuento = totalPagar - (totalPagar * 0.1 );
+            System.out.println("EL descuento por ser mayor de 60 años es del 10 % equivalente a ::  " + (totalPagar * 0.1 ) );
+        }
+
+        
+        return totalConDescuento;
+    
     }
 
 }
